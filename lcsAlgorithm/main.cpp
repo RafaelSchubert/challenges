@@ -7,10 +7,16 @@ int main()
 {
     std::string textA;
     std::string textB;
+    int         n = 0;
 
-    std::cin >> textA >> textB;
+    std::cin >> n;
 
-    std::cout << lcs(textA, textB);
+    for (; n > 0; --n)
+    {
+        std::cin >> textA >> textB;
+
+        std::cout << lcs(textA, textB) << '\n';
+    }
 
     return 0;
 }
