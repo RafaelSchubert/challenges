@@ -9,22 +9,24 @@
 template<class TLeft, class TRight>
 std::size_t lcs(TLeft const& left, TRight const& right)
 {
-    std::vector<std::size_t> scores(size(right) + 1, 0);
-    std::size_t              scoreIndex = 1;
+    auto const rowLength = size(left) + 1;
+
+    std::vector<std::size_t> scores(rowLength * (size(right) + 1), 0);
+    std::size_t              scoreIndex = rowLength;
 
     for (auto const& leftValue : left)
     {
+        ++scoreIndex;
+
         for (auto const& rightValue : right)
         {
-            scores[scoreIndex] = std::max(scores[scoreIndex - 1], scores[scoreIndex]);
-
             if (leftValue == rightValue)
-                ++scores[scoreIndex];
+                scores[scoreIndex] = scores[scoreIndex - rowLength - 1] + 1;
+            else
+                scores[scoreIndex] = std::max(scores[scoreIndex - 1], scores[scoreIndex - rowLength]);
 
             ++scoreIndex;
         }
-
-        scoreIndex = 1;
     }
 
     return scores.back();
